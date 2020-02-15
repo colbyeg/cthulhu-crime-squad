@@ -4,18 +4,22 @@ import { createMuiTheme } from "@material-ui/core/styles";
 // A custom theme for this app
 const theme = createMuiTheme({
   palette: {
+    type: "dark",
     primary: {
-      main: "#556cd6"
+      main: "#cecece"
     },
     secondary: {
-      main: "#19857b"
+      main: "#8c1119"
     },
     error: {
       main: red.A400
     },
     background: {
-      default: "#fff"
+      default: "#303030"
     }
+  },
+  typography: {
+    fontFamily: ["Roboto Mono", "monospace"]
   }
 });
 
