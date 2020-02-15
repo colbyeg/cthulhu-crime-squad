@@ -8,9 +8,9 @@ import {
   Typography
 } from "@material-ui/core";
 import CultistDrawer from "./Cultists";
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+import Mission from "./Mission";
 
+const TabPanel = ({ children, value, index, ...other }) => {
   return (
     <Typography
       component="div"
@@ -23,7 +23,7 @@ function TabPanel(props) {
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
   );
-}
+};
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,6 +54,7 @@ export default function ManagementTabs() {
           <Tab label="Cultists" />
           <Tab label="Bases" />
           <Tab label="Sacrifices" />
+          <Tab label="Missions" />
         </Tabs>
       </AppBar>
       <TabPanel value={selectedTab} index={0}>
@@ -64,6 +65,9 @@ export default function ManagementTabs() {
       </TabPanel>
       <TabPanel value={selectedTab} index={2}>
         Item Three
+      </TabPanel>
+      <TabPanel value={selectedTab} index={3}>
+        <Mission />
       </TabPanel>
     </div>
   );

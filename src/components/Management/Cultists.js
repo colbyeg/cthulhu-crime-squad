@@ -53,8 +53,8 @@ export default function CultistsDrawer() {
         <div className={classes.toolbar} />
         <List>
           {cultists.map((c, i) => (
-            <ListItem onClick={() => setSelectedCultist(i)} button>
-              <ListItemText primary={c.name} key={c.name} />
+            <ListItem key={c.name} onClick={() => setSelectedCultist(i)} button>
+              <ListItemText primary={c.name} />
             </ListItem>
           ))}
         </List>
