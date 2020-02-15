@@ -7,7 +7,8 @@ import {
   Tab,
   Typography
 } from "@material-ui/core";
-import CultistDrawer from "./Cultists";
+
+import CultistsDrawer from "./Cultists";
 import Mission from "./Mission";
 
 const TabPanel = ({ children, value, index, ...other }) => {
@@ -58,7 +59,7 @@ export default function ManagementTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={selectedTab} index={0}>
-        <CultistDrawer />
+        <CultistsDrawer />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>
         Item Two

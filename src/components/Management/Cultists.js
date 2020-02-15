@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import {
+  Grid,
   makeStyles,
   Drawer,
   CssBaseline,
   Typography,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper
 } from "@material-ui/core";
 
 const drawerWidth = 240;
@@ -27,6 +35,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3)
+  },
+  table: {
+    minWidth: 650
   }
 }));
 
@@ -38,6 +49,29 @@ export default function CultistsDrawer() {
   const [selectedCultist, setSelectedCultist] = useState(0);
 
   const CultistPane = props => <Typography>Name: {props.name}</Typography>;
+
+  const CultistTable = ({ cultists }) => (
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Cultist Name</TableCell>
+            <TableCell align="right">Cultist Task</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {cultists.map(cultist => (
+            <TableRow key={cultist.name}>
+              <TableCell component="th" scope="row">
+                {cultist.name}
+              </TableCell>
+              {/* <TableCell align="right">{cultist.task}</TableCell> */}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
 
   return (
     <div className={classes.root}>
@@ -59,10 +93,17 @@ export default function CultistsDrawer() {
           ))}
         </List>
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <CultistPane name={cultists[selectedCultist].name} />
-      </main>
+      <Grid container spacing={1} direction="column">
+        <Grid item>
+          {/* <main className={classes.content}>*/}
+          <div className={classes.toolbar} />
+          <CultistPane name={cultists[selectedCultist].name} />
+          {/* </main> */}
+        </Grid>
+        <Grid item>
+          <CultistTable cultists={cultists} />
+        </Grid>
+      </Grid>
     </div>
   );
 }
