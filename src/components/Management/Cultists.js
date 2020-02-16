@@ -16,7 +16,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Box
+  Box,
+  Avatar
 } from "@material-ui/core";
 
 const drawerWidth = 240;
@@ -67,24 +68,45 @@ export default function CultistsDrawer() {
 
   const CultistPane = ({ name, stats, task, occupation, picture }) => {
     return (
-      <Box border paddingTop="32px">
-        <Typography variant="h3" component="h3">
-          {name}
-        </Typography>
-        <Typography variant="h6" component="h6" gutterBottom>
-          {occupation}
-        </Typography>
-        <Typography variant="h7" component="h7" gutterBottom>
-          Current Task: {task}
-        </Typography>
-        <Typography variant="h5" component="h5" gutterBottom>
-          Stats:
-        </Typography>
-        {stats.map(stat => (
-          <li key={stat}>{stat}</li>
-        ))}
-        <img src={picture + "128x128.png"} />
-      </Box>
+      <div style={{ width: "100%", minHeight: "100vh" }}>
+        <Box border paddingTop="32px">
+          <Grid container direction="row" spacing={3} justify="space-between">
+            <Grid item>
+              <Typography variant="h3" component="h3">
+                {name}
+              </Typography>
+              <Typography variant="h6" component="h6" gutterBottom>
+                {occupation}
+              </Typography>
+              <Typography variant="h7" component="h7" gutterBottom>
+                Current Task: {task}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <img src={picture + "128x128.png"} />
+            </Grid>
+          </Grid>
+          <Grid container direction="row" spacing={3} justify="space-between">
+            <Grid item>
+              <Typography variant="h5" component="h5" gutterBottom>
+                Stats:
+              </Typography>
+              {stats.map(stat => (
+                <li key={stat}>{stat}</li>
+              ))}
+            </Grid>
+            {/* mission tasks go here */}
+            <Grid item>
+              <Typography variant="h5" component="h5" gutterBottom>
+                Missions:
+              </Typography>
+              {stats.map(stat => (
+                <li key={stat}>{stat}</li>
+              ))}
+            </Grid>
+          </Grid>
+        </Box>
+      </div>
     );
   };
 

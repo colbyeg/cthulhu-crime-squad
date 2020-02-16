@@ -4,7 +4,7 @@ const startGame = () => {
   const SIZE = 32;
 
   var tileSet = document.createElement("img");
-  tileSet.src = "preview_env.png";
+  tileSet.src = "lofi_scifi_v2_trans32x32.png";
 
   const options = {
     layout: "tile",
@@ -13,8 +13,8 @@ const startGame = () => {
     tileHeight: SIZE,
     tileSet: tileSet,
     tileMap: {
-      mushroom: [12 * SIZE, 6 * SIZE],
-      floor: [0, 0]
+      mushroom: [4 * SIZE, 76 * SIZE],
+      floor: [5 * SIZE, 500 * SIZE]
     },
     width: 25,
     height: 25
@@ -47,7 +47,7 @@ const startGame = () => {
   for (let i = 0; i < 10; i++) {
     const index = Math.floor(RNG.getUniform() * freeCells.length);
     const key = freeCells.splice(index, 1)[0];
-    map[key] = ["floor", "mushroom"];
+    map[key] = ["mushroom"];
   }
 
   tileSet.onload = () => {
