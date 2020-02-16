@@ -44,11 +44,27 @@ const useStyles = makeStyles(theme => ({
 export default function CultistsDrawer() {
   const classes = useStyles();
 
-  const cultists = [{ name: "Evan" }, { name: "Colby" }];
+  const cultists = [
+    {
+      name: "Evan",
+      stats: ["STR: 8", "INT: 10", "DEX: 5", "WILL: 1", "WORTHINESS: 7"]
+    },
+    {
+      name: "Colby",
+      stats: ["STR: 2 ", "INT: 7 ", "DEX: 2 ", "WILL: 8 ", "WORTHINESS: 3 "]
+    }
+  ];
 
   const [selectedCultist, setSelectedCultist] = useState(0);
 
-  const CultistPane = props => <Typography>Name: {props.name}</Typography>;
+  const CultistPane = props => (
+    <Typography>
+      Name: {props.name} <br /> Stats:{" "}
+      {props.map(props => (
+        <li>props.stats</li>
+      ))}
+    </Typography>
+  );
 
   const CultistTable = ({ cultists }) => (
     <TableContainer component={Paper}>
@@ -97,7 +113,10 @@ export default function CultistsDrawer() {
         <Grid item>
           {/* <main className={classes.content}>*/}
           <div className={classes.toolbar} />
-          <CultistPane name={cultists[selectedCultist].name} />
+          <CultistPane
+            name={cultists[selectedCultist].name}
+            stats={cultists[selectedCultist].stats}
+          />
           {/* </main> */}
         </Grid>
         <Grid item>
