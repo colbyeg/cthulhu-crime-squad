@@ -46,7 +46,7 @@ export default function ManagementTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="absolute" className={classes.appBar}>
         <Tabs
           value={selectedTab}
           onChange={handleChange}

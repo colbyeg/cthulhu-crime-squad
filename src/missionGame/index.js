@@ -13,8 +13,8 @@ const startGame = () => {
     tileHeight: SIZE,
     tileSet: tileSet,
     tileMap: {
-      "*": [13 * SIZE, 6 * SIZE],
-      ".": [0, 0]
+      mushroom: [12 * SIZE, 6 * SIZE],
+      floor: [0, 0]
     },
     width: 25,
     height: 25
@@ -38,7 +38,7 @@ const startGame = () => {
     }
 
     const key = x + "," + y;
-    map[key] = ".";
+    map[key] = "floor";
     freeCells.push(key);
   };
 
@@ -47,7 +47,7 @@ const startGame = () => {
   for (let i = 0; i < 10; i++) {
     const index = Math.floor(RNG.getUniform() * freeCells.length);
     const key = freeCells.splice(index, 1)[0];
-    map[key] = "*";
+    map[key] = ["floor", "mushroom"];
   }
 
   tileSet.onload = () => {

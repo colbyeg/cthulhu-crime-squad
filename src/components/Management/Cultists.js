@@ -8,13 +8,15 @@ import {
   List,
   ListItem,
   ListItemText,
+  ListSubheader,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper
+  Paper,
+  Box
 } from "@material-ui/core";
 
 const drawerWidth = 240;
@@ -47,24 +49,44 @@ export default function CultistsDrawer() {
   const cultists = [
     {
       name: "Evan",
-      stats: ["STR: 8", "INT: 10", "DEX: 5", "WILL: 1", "WORTHINESS: 7"]
+      stats: ["STR: 8", "INT: 10", "DEX: 5", "WILL: 1", "WORTHINESS: 7"],
+      task: "Sacrificing",
+      occupation: "Con man",
+      picture: "demonghost"
     },
     {
       name: "Colby",
-      stats: ["STR: 2 ", "INT: 7 ", "DEX: 2 ", "WILL: 8 ", "WORTHINESS: 3 "]
+      stats: ["STR: 2", "INT: 7", "DEX: 2", "WILL: 8", "WORTHINESS: 3"],
+      task: "Researching",
+      occupation: "Museum Assistant",
+      picture: "cultist"
     }
   ];
 
   const [selectedCultist, setSelectedCultist] = useState(0);
 
-  const CultistPane = props => (
-    <Typography>
-      Name: {props.name} <br /> Stats:{" "}
-      {props.map(props => (
-        <li>props.stats</li>
-      ))}
-    </Typography>
-  );
+  const CultistPane = ({ name, stats, task, occupation, picture }) => {
+    return (
+      <Box border paddingTop="32px">
+        <Typography variant="h3" component="h3">
+          {name}
+        </Typography>
+        <Typography variant="h6" component="h6" gutterBottom>
+          {occupation}
+        </Typography>
+        <Typography variant="h7" component="h7" gutterBottom>
+          Current Task: {task}
+        </Typography>
+        <Typography variant="h5" component="h5" gutterBottom>
+          Stats:
+        </Typography>
+        {stats.map(stat => (
+          <li key={stat}>{stat}</li>
+        ))}
+        <img src={picture + "128x128.png"} />
+      </Box>
+    );
+  };
 
   const CultistTable = ({ cultists }) => (
     <TableContainer component={Paper}>
@@ -72,7 +94,7 @@ export default function CultistsDrawer() {
         <TableHead>
           <TableRow>
             <TableCell>Cultist Name</TableCell>
-            <TableCell align="right">Cultist Task</TableCell>
+            <TableCell>Task</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -81,7 +103,7 @@ export default function CultistsDrawer() {
               <TableCell component="th" scope="row">
                 {cultist.name}
               </TableCell>
-              {/* <TableCell align="right">{cultist.task}</TableCell> */}
+              <TableCell>{cultist.task}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -101,28 +123,25 @@ export default function CultistsDrawer() {
         anchor="left"
       >
         <div className={classes.toolbar} />
-        <List>
+        <List
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+              Your Cult:
+            </ListSubheader>
+          }
+        >
           {cultists.map((c, i) => (
             <ListItem key={c.name} onClick={() => setSelectedCultist(i)} button>
               <ListItemText primary={c.name} />
+              <img src={c.picture + "32x32.png"} />
             </ListItem>
           ))}
         </List>
       </Drawer>
-      <Grid container spacing={1} direction="column">
-        <Grid item>
-          {/* <main className={classes.content}>*/}
-          <div className={classes.toolbar} />
-          <CultistPane
-            name={cultists[selectedCultist].name}
-            stats={cultists[selectedCultist].stats}
-          />
-          {/* </main> */}
-        </Grid>
-        <Grid item>
-          <CultistTable cultists={cultists} />
-        </Grid>
-      </Grid>
+      <CultistPane {...cultists[selectedCultist]} />
+      <Drawer variant="permanent" anchor="bottom">
+        <CultistTable cultists={cultists} />
+      </Drawer>
     </div>
   );
 }
