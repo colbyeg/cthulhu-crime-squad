@@ -57,7 +57,7 @@ const CultistInfoPane = ({
               {occupation}
             </Typography>
             <Typography variant="h6" component="h6" gutterBottom>
-              Current Task: {task}
+              Current Task: {tasks[task].name}
             </Typography>
           </Grid>
           <Grid item>
@@ -73,7 +73,6 @@ const CultistInfoPane = ({
               <li key={key}>{key + ": " + value}</li>
             ))}
           </Grid>
-          {/* mission tasks go here */}
           <Grid item>
             <Typography variant="h5" component="h5" gutterBottom>
               Missions:
@@ -87,14 +86,17 @@ const CultistInfoPane = ({
                   dispatch(setTask(name, value))
                 }
               >
-                {tasks.map(({ name, key }) => (
-                  <FormControlLabel
-                    key={key}
-                    value={key}
-                    control={<Radio color="primary" />}
-                    label={name}
-                    labelPlacement="start"
-                  />
+                {Object.entries(tasks).map(([key, { name, description }]) => (
+                  <>
+                    <FormControlLabel
+                      key={key}
+                      value={key}
+                      control={<Radio color="primary" />}
+                      label={name}
+                      labelPlacement="start"
+                    />
+                    <Typography>{description}</Typography>
+                  </>
                 ))}
               </RadioGroup>
             </FormControl>

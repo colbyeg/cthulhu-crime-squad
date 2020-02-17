@@ -17,6 +17,7 @@ import {
   Paper
 } from "@material-ui/core";
 import CultistInfoPane from "./CultistInfoPane";
+import tasks from "../../../content/tasks";
 
 const drawerWidth = 240;
 
@@ -60,7 +61,7 @@ const CultistTable = ({ cultists }) => {
               <TableCell component="th" scope="row">
                 {cultist.name}
               </TableCell>
-              <TableCell>{cultist.task}</TableCell>
+              <TableCell>{tasks[cultist.task].name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

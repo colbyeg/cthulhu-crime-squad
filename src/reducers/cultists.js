@@ -14,17 +14,13 @@ const cultists = (state = [], action) => {
         }
       ];
     case "SET_TASK":
+      console.log(action);
       return state.map(cultist => {
         if (cultist.name !== action.name) {
           return cultist;
         }
         return { ...cultist, task: action.task };
       });
-    //   const cultist = state.filter(cultist => cultist.name === action.name)[0];
-    //   return [
-    //     ...state.filter(cultist => cultist.name !== action.name),
-    //     { ...cultist, task: action.task }
-    //   ];
     default:
       return state;
   }
