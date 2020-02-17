@@ -34,7 +34,7 @@ export const research = cultist => {
   return dispatch => {
     const insight = cultist.stats.INT * 2;
     dispatch(gainKnowledge(insight));
-    dispatchEvent(loseSanity(cultist, insight));
+    dispatch(loseSanity(cultist, insight));
   };
 };
 

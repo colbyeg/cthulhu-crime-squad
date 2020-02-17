@@ -82,7 +82,7 @@ const CultistInfoPane = ({
               <RadioGroup
                 aria-label="mission"
                 name="mission"
-                value={task.key}
+                value={task}
                 onChange={({ target: { value } }) =>
                   dispatch(setTask(name, value))
                 }
