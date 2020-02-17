@@ -30,7 +30,10 @@ const store = createStore(
         picture: "cultist"
       }
     ],
-    knowledge: 0
+    knowledge: 0,
+    missions: {
+      summary: []
+    }
   },
   compose(
     applyMiddleware(thunk),

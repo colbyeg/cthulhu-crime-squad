@@ -6,7 +6,8 @@ import {
   Tabs,
   Tab,
   Typography,
-  Button
+  Button,
+  Modal
 } from "@material-ui/core";
 import { connect } from "react-redux";
 
@@ -28,6 +29,14 @@ const TabPanel = ({ children, value, index }) => {
   );
 };
 
+const getModalStyle = () => {
+  return {
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
+  };
+};
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -35,15 +44,39 @@ const useStyles = makeStyles(theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1
+  },
+  paper: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
   }
 }));
 
-const ManagementTabs = ({ dispatch, money, time, knowledge }) => {
+const ManagementTabs = ({ dispatch, money, time, knowledge, summary }) => {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(3);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
+  };
+
+  // getModalStyle is not a pure function, we roll the style only on the first render
+  const [modalStyle] = React.useState(getModalStyle);
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleBasesButtonClick = () => {
+    dispatch(confirmMissions());
+    handleOpen();
   };
 
   return (
@@ -76,10 +109,23 @@ const ManagementTabs = ({ dispatch, money, time, knowledge }) => {
           <Button
             variant="contained"
             color="secondary"
-            onClick={() => dispatch(confirmMissions())}
+            onClick={handleBasesButtonClick}
           >
             Confirm Missions and Advance
           </Button>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={open}
+            onClose={handleClose}
+          >
+            <div style={modalStyle} className={classes.paper}>
+              <h2 id="simple-modal-title">Summary of {time.toDateString()} </h2>
+              {summary.map(sentence => (
+                <li key={sentence}>{sentence}</li>
+              ))}
+            </div>
+          </Modal>
         </Box>
       </TabPanel>
       <TabPanel value={selectedTab} index={2}>
@@ -92,8 +138,14 @@ const ManagementTabs = ({ dispatch, money, time, knowledge }) => {
   );
 };
 
-const mapStateToProps = ({ cultResources: { money }, time, knowledge }) => ({
+const mapStateToProps = ({
+  cultResources: { money },
+  missions: { summary },
+  time,
+  knowledge
+}) => ({
   money,
+  summary,
   time,
   knowledge
 });

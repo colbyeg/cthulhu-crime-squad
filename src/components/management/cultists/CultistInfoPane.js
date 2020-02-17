@@ -9,7 +9,8 @@ import {
   FormControl,
   RadioGroup,
   FormControlLabel,
-  Radio
+  Radio,
+  Tooltip
 } from "@material-ui/core";
 import { setTask } from "../../../actions";
 
@@ -77,7 +78,11 @@ const CultistInfoPane = ({
             <Typography variant="h5" component="h5" gutterBottom>
               Missions:
             </Typography>
-            <FormControl component="fieldset" className={classes.formControl}>
+            <FormControl
+              component="fieldset"
+              className={classes.formControl}
+              fullWidth={true}
+            >
               <RadioGroup
                 aria-label="mission"
                 name="mission"
@@ -88,14 +93,16 @@ const CultistInfoPane = ({
               >
                 {Object.entries(tasks).map(([key, { name, description }]) => (
                   <>
-                    <FormControlLabel
-                      key={key}
-                      value={key}
-                      control={<Radio color="primary" />}
-                      label={name}
-                      labelPlacement="start"
-                    />
-                    <Typography>{description}</Typography>
+                    <Tooltip title={description}>
+                      <FormControlLabel
+                        key={key}
+                        value={key}
+                        control={<Radio color="primary" />}
+                        label={name}
+                        labelPlacement="end"
+                      />
+                    </Tooltip>
+                    {/* <Typography>{description}</Typography> */}
                   </>
                 ))}
               </RadioGroup>

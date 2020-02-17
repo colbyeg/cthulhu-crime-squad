@@ -1,9 +1,9 @@
-const missions = (state, action) => {
+const missions = (state = { summary: [] }, action) => {
   switch (action.type) {
-    case "TASK":
-      const tomorrow = new Date(state);
-      tomorrow.setDate(state.getDate() + 1);
-      return tomorrow;
+    case "CLEAR_SUMMARY":
+      return { ...state, summary: [] };
+    case "ADD_TO_SUMMARY":
+      return { ...state, summary: [...state.summary, action.payload] };
     default:
       return state;
   }
