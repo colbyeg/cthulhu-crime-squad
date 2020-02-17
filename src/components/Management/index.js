@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
 const ManagementTabs = ({ dispatch, money, time, knowledge }) => {
   const classes = useStyles();
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(3);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
