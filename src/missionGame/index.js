@@ -25,8 +25,19 @@ const options = {
     playerU1: [11 * SIZE, 15 * SIZE],
     playerU2: [12 * SIZE, 15 * SIZE],
     playerDead: [13 * SIZE, 15 * SIZE],
+    pedroR0: [16 * SIZE, 3 * SIZE],
+    pedroR1: [17 * SIZE, 3 * SIZE],
+    pedroR2: [18 * SIZE, 3 * SIZE],
+    pedroD0: [19 * SIZE, 3 * SIZE],
+    pedroD1: [20 * SIZE, 3 * SIZE],
+    pedroD2: [21 * SIZE, 3 * SIZE],
+    pedroL0: [22 * SIZE, 3 * SIZE],
+    pedroL1: [23 * SIZE, 3 * SIZE],
+    pedroL2: [24 * SIZE, 3 * SIZE],
+    pedroU0: [25 * SIZE, 3 * SIZE],
+    pedroU1: [26 * SIZE, 3 * SIZE],
+    pedroU2: [27 * SIZE, 3 * SIZE],
     mushroom: [2 * SIZE, 79 * SIZE],
-    pedro: [21 * SIZE, 3 * SIZE],
     floor0: [9 * SIZE, 63 * SIZE],
     floor1: [9 * SIZE, 64 * SIZE],
     floor2: [9 * SIZE, 65 * SIZE],
@@ -34,7 +45,9 @@ const options = {
     floor4: [8 * SIZE, 63 * SIZE],
     floor5: [8 * SIZE, 64 * SIZE],
     floor6: [8 * SIZE, 65 * SIZE],
-    floor7: [8 * SIZE, 66 * SIZE]
+    floor7: [8 * SIZE, 66 * SIZE],
+    background0: [26 * SIZE, 65 * SIZE],
+    background1: [26 * SIZE, 64 * SIZE]
   },
   width: 25,
   height: 25
@@ -48,6 +61,7 @@ class Game {
     this.player = null;
     this.pedro = null;
     this.ananas = null;
+    this.turn = 0;
     this.display = new Display(options);
     document.getElementById("game").appendChild(this.display.getContainer());
 
@@ -122,6 +136,14 @@ class Game {
       const y = parseInt(parts[1]);
       this.display.draw(x, y, this.map[key]);
     }
+    for (let x = 0; x < options.width; x++) {
+      for (let y = 0; y < options.height; y++) {
+        const key = x + "," + y;
+        if (!this.map[key]) {
+          this.display.draw(x, y, "background0");
+        }
+      }
+    }
   };
 }
 
@@ -130,7 +152,6 @@ class Player {
     this._x = x;
     this._y = y;
     this._game = game;
-    this.turn = 1;
     this.direction = "D";
     this._draw();
   }
@@ -195,19 +216,26 @@ class Player {
     );
     this._x = newX;
     this._y = newY;
-    this.turn++;
+    this._game.turn++;
     this._draw();
     window.removeEventListener("keydown", this);
     this._game.engine.unlock();
   };
 
   _draw = () => {
-    this._game._drawWholeMap(); //hack to figure out bug
+    for (let x = 0; x < options.width; x++) {
+      for (let y = 0; y < options.height; y++) {
+        const key = x + "," + y;
+        if (!this._game.map[key]) {
+          this._game.display.draw(x, y, `background${this._game.turn % 2}`);
+        }
+      }
+    }
     this._game.display.draw(
       this._x,
       this._y,
       this._game.map[this._x + "," + this._y].concat(
-        `player${this.direction + (this.turn % 3)}`
+        `player${this.direction + (this._game.turn % 3)}`
       )
     );
   };
@@ -230,6 +258,7 @@ class Pedro {
     this._x = x;
     this._y = y;
     this._game = game;
+    this.direction = "D";
     this._draw();
   }
 
@@ -259,11 +288,17 @@ class Pedro {
     } else {
       x = path[0][0];
       y = path[0][1];
+      if (this._x - x === 0) {
+        y - this._y === 1 ? (this.direction = "D") : (this.direction = "U");
+      } else {
+        x - this._x === 1 ? (this.direction = "R") : (this.direction = "L");
+      }
       this._game.display.draw(
         this._x,
         this._y,
         this._game.map[this._x + "," + this._y]
       );
+
       this._x = x;
       this._y = y;
       this._draw();
@@ -271,103 +306,19 @@ class Pedro {
   };
 
   _draw = () => {
-    this._game.display.draw(this._x, this._y, "pedro", "red");
+    this._game.display.draw(
+      this._x,
+      this._y,
+      this._game.map[this._x + "," + this._y].concat(
+        `pedro${this.direction + (this._game.turn % 3)}`
+      )
+    );
   };
 }
 const startGame = () => {
   tileSet.onload = () => {
-    const game = new Game();
+    new Game();
   };
 };
 
 export default startGame;
-
-// const startGame = () => {
-//   const SIZE = 32;
-
-//   const tileSet = document.createElement("img");
-//   tileSet.src = "lofi_scifi_v2_trans32x32.png";
-
-//   const options = {
-//     layout: "tile",
-//     bg: "transparent",
-//     tileWidth: SIZE,
-//     tileHeight: SIZE,
-//     tileSet: tileSet,
-//     tileMap: {
-//       playerR0: [1 * SIZE, 15 * SIZE],
-//       playerR1: [2 * SIZE, 15 * SIZE],
-//       playerR2: [3 * SIZE, 15 * SIZE],
-//       playerD0: [4 * SIZE, 15 * SIZE],
-//       playerD1: [5 * SIZE, 15 * SIZE],
-//       playerD2: [6 * SIZE, 15 * SIZE],
-//       playerL0: [7 * SIZE, 15 * SIZE],
-//       playerL1: [8 * SIZE, 15 * SIZE],
-//       playerL2: [9 * SIZE, 15 * SIZE],
-//       playerU0: [10 * SIZE, 15 * SIZE],
-//       playerU1: [11 * SIZE, 15 * SIZE],
-//       playerU2: [12 * SIZE, 15 * SIZE],
-//       playerDead: [13 * SIZE, 15 * SIZE],
-//       mushroom: [2 * SIZE, 79 * SIZE],
-//       floor0: [9 * SIZE, 63 * SIZE],
-//       floor1: [9 * SIZE, 64 * SIZE],
-//       floor2: [9 * SIZE, 65 * SIZE],
-//       floor3: [9 * SIZE, 66 * SIZE],
-//       floor4: [8 * SIZE, 63 * SIZE],
-//       floor5: [8 * SIZE, 64 * SIZE],
-//       floor6: [8 * SIZE, 65 * SIZE],
-//       floor7: [8 * SIZE, 66 * SIZE]
-//     },
-//     width: 25,
-//     height: 25
-//   };
-//   RNG.setSeed(1);
-//   const display = new Display(options);
-//   document.getElementById("game").appendChild(display.getContainer());
-
-//   const digger = new Map.Digger(25, 25, {
-//     roomHeight: [2, 4],
-//     roomWidth: [2, 4],
-//     corridorLength: [2, 4],
-//     dugPercentage: 0.5
-//   });
-//   const freeCells = [];
-//   const map = {};
-
-//   const digCallback = (x, y, value) => {
-//     if (value) {
-//       return;
-//     }
-
-//     const key = x + "," + y;
-
-//     const floorTileNumber = RNG.getPercentage();
-
-//     let tile =
-//       floorTileNumber % 25 ==== 0
-//         ? 4 + (floorTileNumber % 4)
-//         : floorTileNumber % 4;
-
-//     map[key] = ["floor" + tile];
-//     freeCells.push(key);
-//   };
-
-//   digger.create(digCallback);
-
-//   for (let i = 0; i < 10; i++) {
-//     const index = Math.floor(RNG.getUniform() * freeCells.length);
-//     const key = freeCells.splice(index, 1)[0];
-//     map[key].push("mushroom");
-//   }
-
-//   tileSet.onload = () => {
-//     for (const key in map) {
-//       const parts = key.split(",");
-//       const x = parseInt(parts[0]);
-//       const y = parseInt(parts[1]);
-//       display.draw(x, y, map[key]);
-//     }
-//   };
-// };
-
-// export default startGame;
