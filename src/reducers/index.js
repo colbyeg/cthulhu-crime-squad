@@ -1,4 +1,7 @@
 import { combineReducers } from "redux";
-import todos from "./todos";
+import cultResources from "./cultResources";
+import time from "./time";
+import cultists from "./cultists";
+import knowledge from "./knowledge";
 
-export default combineReducers({ todos });
+export default combineReducers({ cultResources, time, cultists, knowledge });

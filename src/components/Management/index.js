@@ -5,13 +5,16 @@ import {
   Box,
   Tabs,
   Tab,
-  Typography
+  Typography,
+  Button
 } from "@material-ui/core";
+import { connect } from "react-redux";
 
-import CultistsDrawer from "./Cultists";
+import CultistsDrawer from "./cultists/Cultists";
 import Mission from "./Mission";
+import { confirmMissions } from "../../actions";
 
-const TabPanel = ({ children, value, index, ...other }) => {
+const TabPanel = ({ children, value, index }) => {
   return (
     <Typography
       component="div"
@@ -19,7 +22,6 @@ const TabPanel = ({ children, value, index, ...other }) => {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
     >
       {value === index && <Box p={3}>{children}</Box>}
     </Typography>
@@ -36,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ManagementTabs() {
+const ManagementTabs = ({ dispatch, money, time, knowledge }) => {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -56,13 +58,29 @@ export default function ManagementTabs() {
           <Tab label="Bases" />
           <Tab label="Sacrifices" />
           <Tab label="Missions" />
+          <Tab disabled label={time.toDateString()} />
+          <Tab disabled label={"funds: $" + money} />
+          <Tab disabled label={"profane knowledge: " + knowledge} />
         </Tabs>
       </AppBar>
       <TabPanel value={selectedTab} index={0}>
         <CultistsDrawer />
       </TabPanel>
       <TabPanel value={selectedTab} index={1}>
-        Item Two
+        <Box paddingTop="32px">
+          {/* Hello I am your monies: {money}*/}
+
+          {/*<Button onClick={() => dispatch(addMoney(1))}>
+            Click me for monies
+          </Button>*/}
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => dispatch(confirmMissions())}
+          >
+            Confirm Missions and Advance
+          </Button>
+        </Box>
       </TabPanel>
       <TabPanel value={selectedTab} index={2}>
         Item Three
@@ -72,4 +90,12 @@ export default function ManagementTabs() {
       </TabPanel>
     </div>
   );
-}
+};
+
+const mapStateToProps = ({ cultResources: { money }, time, knowledge }) => ({
+  money,
+  time,
+  knowledge
+});
+
+export default connect(mapStateToProps)(ManagementTabs);
