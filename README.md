@@ -17,7 +17,7 @@ Cthulhu Crime Squad is a browser game made by <a href="https://github.com/colbye
 
 ## Setting Up
 - `git clone git@github.com:colbyeg/cthulhu-crime-squad.git` 
-- `cd cthulh-crime-squad`
+- `cd cthulhu-crime-squad`
 - `npm install`
 - `npm start`
 - App should now be running on `http://localhost:3000/`
