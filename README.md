@@ -5,7 +5,7 @@ Cthulhu Crime Squad is a browser game made by <a href="https://github.com/colbye
 ## Current Features
 
 - An in-game timeline where players can view their cults's progress with daily summaries. 
-- Cultists can complete tasks like working, researching, and purchasing artifacts. Success is determined by cultists' unique stats.
+- Cultists can complete tasks like working, researching, and purchasing artifacts. Tasks can add to or deplete cult resources. Success is determined by cultists' unique stats.
 - A rogue-like mission game where players look for the prize while running from an alien. 
 
 ## Future Additions
@@ -14,3 +14,10 @@ Cthulhu Crime Squad is a browser game made by <a href="https://github.com/colbye
 - Missions to recruit cultists and steal artifacts.
 - Favor from the Great Old One - Cultists can use their knowledge to make sacrifices and earn favor from Cthulhu. 
 - New types of cultists, including robots and minor monsters. 
+
+## Setting Up
+- `git clone git@github.com:colbyeg/cthulhu-crime-squad.git` 
+- `cd cthulh-crime-squad`
+- `npm install`
+- `npm start`
+- App should now be running on `http://localhost:3000/`
