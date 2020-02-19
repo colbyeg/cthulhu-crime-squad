@@ -1,2 +1,1 @@
-HP Lovecraft inspired tactics/base management game.
-Build with React+Redux+MaterialUI+ROTjs
+<h1 align="center"> Cthulhu Crime Squad: A Lovecraft-Inspired Base Management Game </h1>
